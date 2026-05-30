@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Mail, ArrowRight, Sparkles, AlertTriangle, Check, ArrowLeft, RefreshCw } from 'lucide-react';
+import { Smartphone, ArrowRight, Sparkles, AlertTriangle, Check, ArrowLeft, RefreshCw } from 'lucide-react';
 
 const ForgotPasswordPage = () => {
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
-  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [code, setCode] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -13,9 +13,9 @@ const ForgotPasswordPage = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [countdown, setCountdown] = useState(0);
 
-  const validateEmail = () => {
-    if (!email.trim()) return { email: '请输入邮箱地址' };
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return { email: '请输入有效的邮箱地址' };
+  const validatePhone = () => {
+    if (!phone.trim()) return { phone: '请输入手机号' };
+    if (!/^1[3-9]\d{9}$/.test(phone)) return { phone: '请输入有效的11位手机号' };
     return {};
   };
 
@@ -34,7 +34,7 @@ const ForgotPasswordPage = () => {
   };
 
   const handleSendCode = () => {
-    const errs = validateEmail();
+    const errs = validatePhone();
     if (Object.keys(errs).length > 0) {
       setErrors(errs);
       return;
@@ -74,13 +74,13 @@ const ForgotPasswordPage = () => {
   };
 
   const steps = [
-    { num: 1, label: '验证邮箱' },
+    { num: 1, label: '验证手机号' },
     { num: 2, label: '输入验证码' },
     { num: 3, label: '重置密码' },
   ];
 
   return (
-    <div className="min-h-[calc(100vh-80px)] flex items-center justify-center py-8 px-4">
+    <div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center py-8 px-4">
       <div className="w-full max-w-[520px]">
         <div className="relative overflow-hidden rounded-3xl bg-gradient-to-b from-[#16162a] to-[#0f0f1e] border border-white/[0.06] shadow-2xl shadow-black/50">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[300px] bg-violet-600/10 rounded-full blur-[100px] pointer-events-none" />
@@ -107,8 +107,8 @@ const ForgotPasswordPage = () => {
                 {step === 4 ? '重置成功' : '找回密码'}
               </h1>
               <p className="text-sm text-gray-500">
-                {step === 1 && '输入你的邮箱地址，我们将发送验证码'}
-                {step === 2 && '请输入邮箱收到的6位验证码'}
+                {step === 1 && '输入你的手机号，我们将发送验证码'}
+                {step === 2 && '请输入手机收到的6位验证码'}
                 {step === 3 && '设置你的新密码'}
                 {step === 4 && '密码已重置，请使用新密码登录'}
               </p>
@@ -137,26 +137,27 @@ const ForgotPasswordPage = () => {
               </div>
             )}
 
-            {/* Step 1: 输入邮箱 */}
+            {/* Step 1: 输入手机号 */}
             {step === 1 && (
               <div className="space-y-5">
                 <div>
                   <label className="flex items-center gap-2 text-sm font-medium text-gray-300 mb-2.5">
-                    <Mail className="w-4 h-4 text-violet-400" />
-                    邮箱地址
+                    <Smartphone className="w-4 h-4 text-violet-400" />
+                    手机号
                   </label>
                   <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="your@email.com"
+                    type="tel"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 11))}
+                    placeholder="请输入11位手机号"
+                    maxLength={11}
                     className={`w-full px-5 py-3.5 rounded-xl bg-white/[0.03] border text-white text-sm placeholder-gray-600 focus:outline-none focus:border-violet-500/40 focus:bg-white/[0.05] transition-all duration-300 ${
-                      errors.email ? 'border-red-500/40' : 'border-white/8'
+                      errors.phone ? 'border-red-500 shadow-[0_0_0_1px_rgba(239,68,68,0.3)]' : 'border-white/8'
                     }`}
                   />
-                  {errors.email && (
+                  {errors.phone && (
                     <p className="text-xs text-red-400 mt-2 flex items-center gap-1.5 animate-pulse">
-                      <AlertTriangle className="w-3 h-3" /> {errors.email}
+                      <AlertTriangle className="w-3 h-3" /> {errors.phone}
                     </p>
                   )}
                 </div>
@@ -173,7 +174,7 @@ const ForgotPasswordPage = () => {
                     </>
                   ) : (
                     <>
-                      <Mail className="w-4 h-4" />
+                      <Smartphone className="w-4 h-4" />
                       发送验证码
                       <ArrowRight className="w-4 h-4" />
                     </>
@@ -182,11 +183,11 @@ const ForgotPasswordPage = () => {
 
                 {countdown > 0 && (
                   <p className="text-xs text-gray-500 text-center">
-                    验证码已发送至 {email}，请查收
+                    验证码已发送至 {phone}，请查收
                   </p>
                 )}
 
-                {countdown === 0 && email && (
+                {countdown === 0 && phone && (
                   <button
                     onClick={() => setStep(2)}
                     className="w-full text-center text-sm text-violet-400 hover:text-violet-300 transition-colors"
@@ -212,7 +213,7 @@ const ForgotPasswordPage = () => {
                     placeholder="请输入6位验证码"
                     maxLength={6}
                     className={`w-full px-5 py-3.5 rounded-xl bg-white/[0.03] border text-white text-sm placeholder-gray-600 focus:outline-none focus:border-violet-500/40 focus:bg-white/[0.05] transition-all duration-300 text-center tracking-[0.5em] text-lg ${
-                      errors.code ? 'border-red-500/40' : 'border-white/8'
+                      errors.code ? 'border-red-500 shadow-[0_0_0_1px_rgba(239,68,68,0.3)]' : 'border-white/8'
                     }`}
                   />
                   {errors.code && (
@@ -236,7 +237,7 @@ const ForgotPasswordPage = () => {
                     onClick={() => { setStep(1); setCode(''); }}
                     className="text-sm text-gray-500 hover:text-gray-300 transition-colors"
                   >
-                    邮箱填错了？重新输入
+                    手机号填错了？重新输入
                   </button>
                 </div>
               </div>
@@ -256,7 +257,7 @@ const ForgotPasswordPage = () => {
                     onChange={(e) => setNewPassword(e.target.value)}
                     placeholder="请输入新密码（至少6位）"
                     className={`w-full px-5 py-3.5 rounded-xl bg-white/[0.03] border text-white text-sm placeholder-gray-600 focus:outline-none focus:border-violet-500/40 focus:bg-white/[0.05] transition-all duration-300 ${
-                      errors.newPassword ? 'border-red-500/40' : 'border-white/8'
+                      errors.newPassword ? 'border-red-500 shadow-[0_0_0_1px_rgba(239,68,68,0.3)]' : 'border-white/8'
                     }`}
                   />
                   {errors.newPassword && (
@@ -277,7 +278,7 @@ const ForgotPasswordPage = () => {
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     placeholder="请再次输入新密码"
                     className={`w-full px-5 py-3.5 rounded-xl bg-white/[0.03] border text-white text-sm placeholder-gray-600 focus:outline-none focus:border-violet-500/40 focus:bg-white/[0.05] transition-all duration-300 ${
-                      errors.confirmPassword ? 'border-red-500/40' : 'border-white/8'
+                      errors.confirmPassword ? 'border-red-500 shadow-[0_0_0_1px_rgba(239,68,68,0.3)]' : 'border-white/8'
                     }`}
                   />
                   {errors.confirmPassword && (

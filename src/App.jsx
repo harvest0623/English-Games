@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
 import { GameProvider } from './context/GameContext'
 import Layout from './components/Layout/Layout'
 import HomePage from './pages/HomePage'
@@ -18,10 +18,21 @@ import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import ForgotPasswordPage from './pages/ForgotPasswordPage'
 
-function App() {
+const authRoutes = ['/login', '/register', '/forgot-password'];
+
+function AppContent() {
+  const location = useLocation();
+  const isAuthPage = authRoutes.includes(location.pathname);
+
   return (
-    <GameProvider>
-      <Router>
+    <>
+      {isAuthPage ? (
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        </Routes>
+      ) : (
         <Layout>
           <Routes>
             <Route path="/" element={<HomePage />} />
@@ -37,11 +48,18 @@ function App() {
             <Route path="/equipment" element={<EquipmentPage />} />
             <Route path="/categories" element={<CategoriesPage />} />
             <Route path="/settings" element={<SettingsPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           </Routes>
         </Layout>
+      )}
+    </>
+  );
+}
+
+function App() {
+  return (
+    <GameProvider>
+      <Router>
+        <AppContent />
       </Router>
     </GameProvider>
   )
