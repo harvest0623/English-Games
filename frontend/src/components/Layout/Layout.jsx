@@ -5,7 +5,7 @@ import {
   Swords, Star, Trophy, Heart, User, Layers, ShoppingBag,
   BookOpen, BarChart3, Medal, Zap, Cat, Shield, Grid3X3,
   ChevronDown, X, Menu, Sparkles, Settings, LogOut,
-  UserCircle, LogIn, UserPlus
+  UserCircle, LogIn, UserPlus, Bot
 } from 'lucide-react';
 
 const Layout = ({ children }) => {
@@ -27,6 +27,7 @@ const Layout = ({ children }) => {
     { path: '/shop', label: '商店', icon: ShoppingBag },
     { path: '/stats', label: '统计', icon: BarChart3 },
     { path: '/leaderboard', label: '排行', icon: Medal },
+    { path: '/ai', label: 'AI 学习', icon: Bot },
     { path: '/profile', label: '我的', icon: User },
   ];
 
@@ -75,7 +76,7 @@ const Layout = ({ children }) => {
 
             {/* 桌面端导航 */}
             <nav className="hidden lg:flex items-center gap-1">
-              {navItems.slice(0, 8).map((item) => {
+              {navItems.slice(0, 9).map((item) => {
                 const Icon = item.icon;
                 return (
                   <Link

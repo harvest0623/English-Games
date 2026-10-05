@@ -700,6 +700,28 @@ export const GameProvider = ({ children }) => {
     }));
   };
 
+  const addWrongWord = (wordId) => {
+    setPlayer(prev => ({
+      ...prev,
+      wrongWords: prev.wrongWords.includes(wordId)
+        ? prev.wrongWords
+        : [...prev.wrongWords, wordId]
+    }));
+  };
+
+  const updateWordMastery = (wordId, masteryData) => {
+    setPlayer(prev => ({
+      ...prev,
+      wordMastery: {
+        ...prev.wordMastery,
+        [wordId]: masteryData
+      },
+      learnedWords: prev.learnedWords.includes(wordId)
+        ? prev.learnedWords
+        : [...prev.learnedWords, wordId]
+    }));
+  };
+
   // 选择词库
   const selectCategory = (categoryId) => {
     setPlayer(prev => ({ ...prev, selectedCategory: categoryId }));
@@ -864,6 +886,8 @@ export const GameProvider = ({ children }) => {
     unlockSkill,
     toggleFavorite,
     removeWrongWord,
+    addWrongWord,
+    updateWordMastery,
     selectCategory,
     checkAchievements,
     setShowLevelUp,

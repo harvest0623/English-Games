@@ -17,6 +17,16 @@ import SettingsPage from './pages/SettingsPage'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import ForgotPasswordPage from './pages/ForgotPasswordPage'
+import LearnPage from './pages/LearnPage'
+import SpellingPage from './pages/SpellingPage'
+import AISentencePage from './pages/AISentencePage'
+import AIChatPage from './pages/AIChatPage'
+import AIHubPage from './pages/AIHubPage'
+import AIWordAnalysisPage from './pages/AIWordAnalysisPage'
+import AIReportPage from './pages/AIReportPage'
+import AIQuizPage from './pages/AIQuizPage'
+import AIPronunciationPage from './pages/AIPronunciationPage'
+import AIEssayPage from './pages/AIEssayPage'
 
 const authRoutes = ['/login', '/register', '/forgot-password'];
 
@@ -48,6 +58,16 @@ function AppContent() {
             <Route path="/equipment" element={<EquipmentPage />} />
             <Route path="/categories" element={<CategoriesPage />} />
             <Route path="/settings" element={<SettingsPage />} />
+            <Route path="/learn" element={<LearnPage />} />
+            <Route path="/spelling" element={<SpellingPage />} />
+            <Route path="/ai/sentence" element={<AISentencePage />} />
+            <Route path="/ai/chat" element={<AIChatPage />} />
+            <Route path="/ai" element={<AIHubPage />} />
+            <Route path="/ai/analysis" element={<AIWordAnalysisPage />} />
+            <Route path="/ai/report" element={<AIReportPage />} />
+            <Route path="/ai/quiz" element={<AIQuizPage />} />
+            <Route path="/ai/pronunciation" element={<AIPronunciationPage />} />
+            <Route path="/ai/essay" element={<AIEssayPage />} />
           </Routes>
         </Layout>
       )}
